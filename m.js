@@ -1,4 +1,4 @@
-// ================ ONYX m.js — UI Functions =================
+// ================ ONYX m.js — UI & THEMES =================
 
 // Minimap simple overlay
 function createMinimap() {
@@ -15,7 +15,7 @@ function createMinimap() {
     map.style.boxShadow = "0 0 15px #009dff";
     map.style.backdropFilter = "blur(6px)";
     map.style.zIndex = "999999";
-    map.innerHTML = "<p style='color:#88d6ff; text-align:center; margin-top:60px;'>Minimap ON</p>";
+    map.innerHTML = "<p style='color:#88d6ff; text-align:center; margin-top:60px; font-size:13px;'>Minimap ON</p>";
     document.body.appendChild(map);
 }
 
@@ -25,16 +25,34 @@ function toggleMinimap() {
     else createMinimap();
 }
 
-// Apply Skin
+// Apply Skin (placeholder)
 function applySkin(url) {
     localStorage.setItem("onyx-skin", url);
-    alert("Skin applied: " + url);
+    alert("Skin saved (placeholder): " + url);
+    // هنا تقدر تربط url مع نظام السكنات لو تكتشف كيف اللعبة تحمل السكنات
 }
 
-// Apply Theme
+// THEMES
 function applyTheme(name) {
-    alert("Theme applied: " + name);
+    const classes = [
+        "onyx-theme-neon-blue",
+        "onyx-theme-galaxy",
+        "onyx-theme-anime",
+        "onyx-theme-matrix",
+        "onyx-theme-red",
+        "onyx-theme-dark"
+    ];
+
+    document.body.classList.remove(...classes);
+    document.body.classList.add("onyx-theme-" + name);
+    localStorage.setItem("onyx-theme", name);
 }
+
+// Load saved theme when page loads
+window.addEventListener("load", () => {
+    const saved = localStorage.getItem("onyx-theme") || "neon-blue";
+    applyTheme(saved);
+});
 
 // Chat overlay
 function toggleChat() {
@@ -47,8 +65,8 @@ function toggleChat() {
         chat.style.position = "fixed";
         chat.style.right = "20px";
         chat.style.top = "20px";
-        chat.style.width = "250px";
-        chat.style.height = "200px";
+        chat.style.width = "260px";
+        chat.style.height = "220px";
         chat.style.background = "rgba(0,0,30,0.5)";
         chat.style.backdropFilter = "blur(8px)";
         chat.style.border = "1px solid #00aaff";
@@ -57,7 +75,8 @@ function toggleChat() {
         chat.style.zIndex = "999999";
         chat.style.color = "#88cfff";
         chat.style.padding = "10px";
-        chat.innerHTML = "<b>Chat Overlay</b><br><br>Coming soon...";
+        chat.style.fontSize = "13px";
+        chat.innerHTML = "<b>Chat Overlay</b><br><br><span style='opacity:0.8;'>Placeholder chat... يمكن لاحقاً نربطو بالشات الحقيقي ديال اللعبة.</span>";
         document.body.appendChild(chat);
     }
 }
