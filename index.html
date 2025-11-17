@@ -15,7 +15,7 @@
             overflow: hidden;
         }
 
-        /* Main container */
+        /* ==== ONYX MAIN PANEL ==== */
         #onyx-ui {
             position: fixed;
             top: 20px;
@@ -40,7 +40,6 @@
             margin-bottom: 15px;
         }
 
-        /* Tabs */
         .onyx-tabs {
             display: flex;
             gap: 5px;
@@ -72,7 +71,6 @@
             box-shadow: 0 0 12px #00aaff;
         }
 
-        /* Content area */
         .onyx-content {
             background: rgba(0, 10, 25, 0.3);
             border-radius: 10px;
@@ -90,7 +88,6 @@
             display: block;
         }
 
-        /* Titles */
         .neon-title {
             font-size: 20px;
             text-align: center;
@@ -99,7 +96,6 @@
             text-shadow: 0 0 12px #00aaff;
         }
 
-        /* Neon buttons */
         .neon-btn {
             display: block;
             width: 100%;
@@ -120,7 +116,6 @@
             box-shadow: 0 0 22px #00aaff;
         }
 
-        /* Skin input box */
         input[type="text"] {
             width: calc(100% - 20px);
             padding: 10px;
@@ -146,6 +141,7 @@
             cursor: pointer;
             box-shadow: 0 0 10px #004f88;
             transition: 0.2s;
+            font-size: 13px;
         }
 
         .theme:hover {
@@ -153,12 +149,72 @@
             box-shadow: 0 0 20px #00aaff;
         }
 
+        /* ====== THEMES AFFECTING GAME (BODY & CANVAS) ====== */
+
+        canvas {
+            transition: filter 0.4s ease;
+        }
+
+        /* Neon Blue – الافتراضي */
+        body.onyx-theme-neon-blue {
+            background: radial-gradient(circle at top, #003366, #000814 60%, #000000 100%);
+        }
+
+        body.onyx-theme-neon-blue canvas {
+            filter: hue-rotate(210deg) saturate(1.4) brightness(1.1);
+        }
+
+        /* Galaxy */
+        body.onyx-theme-galaxy {
+            background: radial-gradient(circle at top, #2a0040, #050014 60%, #000000 100%);
+        }
+
+        body.onyx-theme-galaxy canvas {
+            filter: hue-rotate(260deg) saturate(1.7) brightness(1.05);
+        }
+
+        /* Anime Pink */
+        body.onyx-theme-anime {
+            background: radial-gradient(circle at top, #ff4da6, #300018 60%, #050007 100%);
+        }
+
+        body.onyx-theme-anime canvas {
+            filter: hue-rotate(320deg) saturate(1.9) brightness(1.05);
+        }
+
+        /* Matrix Green */
+        body.onyx-theme-matrix {
+            background: radial-gradient(circle at top, #00aa44, #001805 60%, #000000 100%);
+        }
+
+        body.onyx-theme-matrix canvas {
+            filter: hue-rotate(90deg) saturate(1.6) brightness(1.0) contrast(1.1);
+        }
+
+        /* Red Dragon */
+        body.onyx-theme-red {
+            background: radial-gradient(circle at top, #ff3300, #280000 60%, #050000 100%);
+        }
+
+        body.onyx-theme-red canvas {
+            filter: hue-rotate(-20deg) saturate(1.8) brightness(0.98);
+        }
+
+        /* Dark ONYX */
+        body.onyx-theme-dark {
+            background: radial-gradient(circle at top, #111111, #000000 70%, #000000 100%);
+        }
+
+        body.onyx-theme-dark canvas {
+            filter: grayscale(0.3) brightness(0.9);
+        }
+
     </style>
 </head>
 
 <body>
 
-    <!-- Main UI -->
+    <!-- ONYX UI PANEL -->
     <div id="onyx-ui">
 
         <div class="onyx-logo">ONYX</div>
@@ -177,46 +233,51 @@
 
             <div id="tab-home" class="tab active">
                 <h2 class="neon-title">Welcome to ONYX</h2>
-                <p>This is the Neon Blue Edition ⚡💙</p>
+                <p>Neon Game Mod • Press <b>Q</b>/<b>X</b>/<b>Z</b> for macros.</p>
             </div>
 
             <div id="tab-gameplay" class="tab">
                 <h2 class="neon-title">Gameplay Tools</h2>
-                <button class="neon-btn">Macro Feed</button>
-                <button class="neon-btn">Macro Split</button>
-                <button class="neon-btn">Double Split</button>
-                <button class="neon-btn">Respawn</button>
+                <button class="neon-btn" id="btn-macro-feed">Macro Feed (Q)</button>
+                <button class="neon-btn" id="btn-macro-split">Macro Split (X)</button>
+                <button class="neon-btn" id="btn-double-split">Double Split (Z)</button>
+                <button class="neon-btn" id="btn-respawn">Auto Respawn (R)</button>
+                <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">
+                    🛈 استخدم الأزرار من الكيبورد داخل اللعبة.
+                </p>
             </div>
 
             <div id="tab-skins" class="tab">
                 <h2 class="neon-title">Skins</h2>
-                <input type="text" placeholder="Skin URL...">
-                <button class="neon-btn">Apply Skin</button>
+                <input type="text" id="skin-url" placeholder="Skin URL...">
+                <button class="neon-btn" id="apply-skin">Apply Skin</button>
             </div>
 
             <div id="tab-themes" class="tab">
                 <h2 class="neon-title">Themes</h2>
                 <div class="theme-grid">
-                    <div class="theme">Neon Blue</div>
-                    <div class="theme">Purple</div>
-                    <div class="theme">Matrix</div>
-                    <div class="theme">Galaxy</div>
+                    <div class="theme" data-theme="neon-blue">Neon Blue</div>
+                    <div class="theme" data-theme="galaxy">Galaxy</div>
+                    <div class="theme" data-theme="anime">Anime Pink</div>
+                    <div class="theme" data-theme="matrix">Matrix</div>
+                    <div class="theme" data-theme="red">Red Dragon</div>
+                    <div class="theme" data-theme="dark">Dark ONYX</div>
                 </div>
             </div>
 
             <div id="tab-minimap" class="tab">
                 <h2 class="neon-title">Minimap</h2>
-                <button class="neon-btn">Toggle Minimap</button>
+                <button class="neon-btn" id="toggle-minimap">Toggle Minimap</button>
             </div>
 
             <div id="tab-chat" class="tab">
                 <h2 class="neon-title">Chat Overlay</h2>
-                <button class="neon-btn">Toggle Chat</button>
+                <button class="neon-btn" id="toggle-chat">Toggle Chat</button>
             </div>
 
             <div id="tab-settings" class="tab">
                 <h2 class="neon-title">Settings</h2>
-                <p>More options soon...</p>
+                <p>More ONYX settings soon...</p>
             </div>
 
         </div>
@@ -239,6 +300,49 @@
                     if (section.id === id) section.classList.add("active");
                 });
             });
+        });
+
+        // Theme buttons
+        const themeBtns = document.querySelectorAll('.theme');
+        themeBtns.forEach(div => {
+            div.addEventListener("click", () => {
+                const name = div.dataset.theme;
+                if (window.applyTheme) {
+                    window.applyTheme(name);
+                }
+            });
+        });
+
+        // Minimap / Chat / Skins buttons
+        document.getElementById("toggle-minimap").addEventListener("click", () => {
+            if (window.toggleMinimap) window.toggleMinimap();
+        });
+
+        document.getElementById("toggle-chat").addEventListener("click", () => {
+            if (window.toggleChat) window.toggleChat();
+        });
+
+        document.getElementById("apply-skin").addEventListener("click", () => {
+            const url = document.getElementById("skin-url").value.trim();
+            if (!url) {
+                alert("ضع رابط صورة السكين أولاً.");
+                return;
+            }
+            if (window.applySkin) window.applySkin(url);
+        });
+
+        // Gameplay buttons (فقط تذكير بالأزرار)
+        document.getElementById("btn-macro-feed").addEventListener("click", () => {
+            alert("لتشغيل Macro Feed اضغط Q وأنت داخل اللعبة.");
+        });
+        document.getElementById("btn-macro-split").addEventListener("click", () => {
+            alert("لتشغيل Macro Split اضغط X.");
+        });
+        document.getElementById("btn-double-split").addEventListener("click", () => {
+            alert("Double Split بالزر Z.");
+        });
+        document.getElementById("btn-respawn").addEventListener("click", () => {
+            alert("Auto Respawn بالزر R.");
         });
     </script>
 
